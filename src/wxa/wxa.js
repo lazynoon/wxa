@@ -11,7 +11,7 @@ import { interceptWxfunc, otherReportInit } from './intercept'
 
 let wxaConfig
 const WXA = {
-  appStartTime: wxaUtils.getTime();
+  appStartTime: wxaUtils.getTime(),
   sendFlag: false, // 数据上传开关
   init (config = {}) {
     if (wx.wxa) {
@@ -22,7 +22,6 @@ const WXA = {
     // 拦截微信相关方法
     interceptWxfunc()
     otherReportInit()
-    this.start();
     // 注入 WXA
     wx.wxa = WXA
     console.log('wxa init success...')
@@ -60,11 +59,9 @@ const WXA = {
   start () {
     this.sendFlag = true
     // 定时上报
-    if (wxaConfig.opportunity.timing) {
-      wxaData.reportTimer = setInterval(function() {
-        report.sendData()
-      }, wxaConfig.intervalTime * 1000)
-    }
+    wxaData.reportTimer = setInterval(function() {
+      report.sendData()
+    }, wxaConfig.intervalTime * 1000)
     this.track({event: eventMap.appSystemInfo})
     console.log('wxa  started...')
   },

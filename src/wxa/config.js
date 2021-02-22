@@ -15,7 +15,7 @@ const wxaConfig = {
   errorReport: false, // 是否开启错误上报
   performanceReport: false, // 接口性能上报
   maxReportNum: 20, // 当次上报最大条数
-  intervalTime: 15,  // 定时上报的时间间隔，单位 s, 仅当开启了定时上报有效。
-  opportunity: 'appHide' // pageHide、appHide、realTime(实时上报)、timing(定时上报) 上报的时机，四选一
+  intervalTime: 15,  // 定时上报的时间间隔，单位 s
+  opportunity: 'appHide' // pageHide、appHide、上报的时机，二选一（自动开启定时上报）
 }
 export default wxaConfig
