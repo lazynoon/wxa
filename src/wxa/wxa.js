@@ -11,6 +11,7 @@ import { interceptWxfunc, otherReportInit } from './intercept'
 
 let wxaConfig
 const WXA = {
+  appStartTime: wxaUtils.getTime();
   sendFlag: false, // 数据上传开关
   init (config = {}) {
     if (wx.wxa) {
@@ -21,6 +22,7 @@ const WXA = {
     // 拦截微信相关方法
     interceptWxfunc()
     otherReportInit()
+    this.start();
     // 注入 WXA
     wx.wxa = WXA
     console.log('wxa init success...')
@@ -30,16 +32,9 @@ const WXA = {
       return wxaUtils.log(1002)
     }
     const sendData = wxaUtils.composeData(type, data)
+    sendData['offset_time'] = wxaUtils.getTime() - this.appStartTime;
     wxaUtils.logInfo('数据跟踪.....', sendData)
-    // 判断是否是实时报
-    if (!data.isRealTime && wxaConfig.opportunity !== 'realTime') {
-      wxaData.addData(type, sendData)
-    } else {
-      console.log('实时上报:')
-      // 发送数据
-      // sendData.url = wxaConfig.trackUrl
-      report.realTimeSend(sendData)
-    }
+    wxaData.addData(type, sendData)
   },
   // 事件跟踪
   track (data) {
@@ -49,6 +44,16 @@ const WXA = {
     this._collect(constMap.error, data)
   },
   performanceReport (data) {
+    if (data.url) {
+        let pos = data.url.indexOf('?');
+        if (pos > 0) {
+            let query = data.url.substring(pos);
+            if (query.length > 33) {
+                query = query.substring(0, 33) + "...";
+                data.url = data.url.substring(0, pos) + query;
+            }
+        }
+    }
     this._collect(constMap.performance, data)
   },
   // 开始上报

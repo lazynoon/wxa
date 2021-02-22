@@ -8,9 +8,6 @@ import wxaData from './data'
 const report = {
   // 实时发送, 才支持指定url, 否则，很难处理。
   realTimeSend (data) {
-    if (!wxaUtils.checkNetworkReady()) {
-      return
-    }
     const logData = wxaUtils.isArray(data) ? data : [data]
     let url = data.url ? data.url : `${wxaUtils.getRequestUrl(data[0].type)}`
     const sendData = report.composeSendData(logData)
@@ -28,9 +25,6 @@ const report = {
   },
   // 发送存下来的数据
   sendData (callback) {
-    if (!wxaUtils.checkNetworkReady()) {
-      return
-    }
     let dataType = report.getSendType()
     if (!dataType) {
       return

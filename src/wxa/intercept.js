@@ -177,9 +177,8 @@ function otherReportInit() {
             event: eventMap.wxRequest,
             url: e[0].url,
             status: arguments[0].statusCode,
-            begin: beginTime,
-            end: endTime,
-            total: endTime - beginTime
+            start: beginTime,
+            cost: endTime - beginTime
           }
           wxaUtils.logInfo('success performance:', performance)
           WXA.performanceReport(performance)
@@ -192,9 +191,8 @@ function otherReportInit() {
             event: eventMap.wxRequest,
             url: e[0].url,
             status: arguments[0].statusCode,
-            begin: beginTime,
-            end: endTime,
-            total: endTime - beginTime
+            start: beginTime,
+            cost: endTime - beginTime
           }
           wxaUtils.logInfo('fail performance:', performance)
           WXA.performanceReport(performance)
@@ -213,7 +211,8 @@ function otherReportInit() {
             type: constMap.performance,
             event: eventMap.downloadFile,
             url: e[0].url,
-            total: endTime - beginTime
+            start: beginTime,
+            cost: endTime - beginTime
           }
           WXA.performanceReport(reportData)
           wxaUtils.logInfo('下载成功：', e, reportData)
@@ -224,7 +223,9 @@ function otherReportInit() {
             type: constMap.performance,
             event: eventMap.downloadFile,
             url: e[0].url,
-            desc: 'fail'
+            desc: 'fail',
+            start: beginTime,
+            cost: endTime - beginTime
           }
           WXA.performanceReport(reportData)
           wxaUtils.logInfo('下载失败：', e, reportData)

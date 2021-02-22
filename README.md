@@ -66,7 +66,6 @@ const wxaConfig = {
     performanceReport: false, // 接口性能上报
     maxReportNum: 20, // 当次上报最大条数
     intervalTime: 15,  // 定时上报的时间间隔，单位 s, 仅当开启了定时上报有效。
-    networkList: ['wifi', '5g', '4g', '3g', // 允许上报的网络环境(枚举，表示在此数组里的网络环境就允许上报)
     opportunity: 'pageHide' 
     // pageHide、appHide、realTime(实时上报)、timing(定时上报) 上报的时机，四选一
 }
